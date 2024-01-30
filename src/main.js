@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import CoronaBusterScene from './CoronaBusterScene'
-import FallingObject from './ui/FallingObject'
+import spaceScene from './spaceScene'
+import GameOverScene from './GameOverScene'
 
 
 const config = {
@@ -14,7 +14,7 @@ const config = {
 			gravity: { y: 0 },
 		},
 	},
-	scene: [CoronaBusterScene],
+	scene: [spaceScene,GameOverScene],
 	scale : {
 		mode :Phaser.Scale.FIT,
 		autoCenter : Phaser.Scale.CENTER_BOTH

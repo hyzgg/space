@@ -20,7 +20,6 @@ die(){
 }
 update(time){
     this.setVelocityY(this.speed)
-this.rotation += this.rotationVal
 const gameHeight = this.scene.scale.height
 if (this.y > gameHeight +5){
 this.die()

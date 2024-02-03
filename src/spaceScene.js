@@ -17,6 +17,12 @@ export default class SpaceScene extends
         this.enemySpeed = 50;
         this.lasers = undefined
         this.lastFired = 10
+        this.scoreLabel = undefined
+        this.score = 0
+        this.lifeLabel = undefined;
+        this.life = 5
+
+
     }
     preload() {
         this.load.image('background','images/background.png')
@@ -27,14 +33,8 @@ export default class SpaceScene extends
             frameWidth: 66,
             frameHeight: 66
             })
-        this.load.spritesheet('enemy','images/enemy-big.png', {
-            frameWidth: 66,
-            frameHeight: 66
-        })
-        this.load.spritesheet('laser','images/projectile.png',{
-            frameWidth: 16,
-            frameHeight: 16,
-        })
+        this.load.image('enemy','images/enemy.png', )
+        this.load.image('laser','images/projectile.png')
     }
     create() {
         const gameWidht = this.scale.width*0.5;
@@ -58,9 +58,27 @@ export default class SpaceScene extends
             maxSize: 10,
             runChildUpdate: true
         })
+        this.scoreLabel = this.add.text(10,10,'Score', {
+            fontSize: '16px',
+            backgroundColor: 'black'
+            }).setDepth(1)
+            this.lifeLabel = this.add.text(10,30,'Score', {
+                fontSize: '16px',
+                backgroundColor: 'black'
+                }).setDepth(1)
+
+        this.physics.add.overlap(
+            this.player,
+            this.enemies,
+            this.decreaseLife,
+            null,
+            this
+        )
     }
     update(time){
         this.movePlayer(this.player, time)
+        this.scoreLabel.setText('Score : ' + this.score);
+        this.lifeLabel.setText('life : ' + this.life);
     }
     createButton(){
         this.input.addPointer(3)
@@ -95,26 +113,47 @@ export default class SpaceScene extends
         player.setCollideWorldBounds(true)
         return player
             }
-            movePlayer(player, time) {
-                if (this.nav_left ){ this.player.setVelocityX(this.speed * -1)
-                this.player.anims.play('left', true)
-                this.player.setFlipX(false)
-                } else if (this.nav_right){
-                this.player.setVelocityX(this.speed)
-                this.player.anims.play('right', true)
-                this.player.setFlipX(true)
-                } else {
-                this.player.setVelocityX(0)
-                this.player.anims.play('turn')
-                }
-            //above there’s codes for moving player
+    movePlayer(player, time) {
+            if (this.nav_left ){ this.player.setVelocityX(this.speed * -1)
+            this.player.anims.play('left', true)
+            this.player.setFlipX(false)
+            } else if (this.nav_right){
+            this.player.setVelocityX(this.speed)
+            this.player.anims.play('right', true)
+            this.player.setFlipX(true)
+            } else {
+            this.player.setVelocityX(0)
+            this.player.anims.play('turn')
+            }
+            this.anims.create({
+                key: 'turn',
+                frames: [{
+                key: 'player',frame: 0}],
+                })
+                this.anims.create({
+                key: 'left',
+                frames: this.anims.generateFrameNumbers('player', {
+                start: 1, end: 2 }),
+                })
+                this.anims.create({
+                key: 'right',
+                frames: this.anims.generateFrameNumbers('player', {
+                start: 1,end: 2 })
+                })
+        
+            
+            //above there's codes for moving player
         if ((this.shoot) && time > this.lastFired) {
             const laser = this.lasers.get(0, 0, 'laser')
             if (laser) {
             laser.fire(this.player.x, this.player.y)
             this.lastFired = time + 150
-    }
-    }
+                }
+            }
+
+
+
+        return player
         }
         spawnEnemy() {
             const config = {
@@ -131,6 +170,18 @@ export default class SpaceScene extends
         hitEnemy(laser, enemy) {
             laser.die()
             enemy.die()
+            this.score += 10;
+        }
+        decreaseLife(player, enemy){
+            enemy.die()
+            this.life--
+            if (this.life == 2){
+            player.setTint(0xff0000)
+            }else if (this.life == 1){
+            player.setTint(0xff0000).setAlpha(0.2)
+            }else if (this.life == 0) {
+            this.scene.start('over-scene',{score:this.score})
+            }
             }
 }
 

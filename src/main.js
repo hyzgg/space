@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import spaceScene from './spaceScene'
 import GameOverScene from './GameOverScene'
+import MainMenuScene from './MainMenuScene'
 
 
 const config = {
@@ -14,7 +15,7 @@ const config = {
 			gravity: { y: 0 },
 		},
 	},
-	scene: [spaceScene,GameOverScene],
+	scene: [MainMenuScene,spaceScene,GameOverScene],
 	scale : {
 		mode :Phaser.Scale.FIT,
 		autoCenter : Phaser.Scale.CENTER_BOTH

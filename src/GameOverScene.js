@@ -5,12 +5,14 @@ super('over-scene')
 }
 init(data) {
 this.replayButton = undefined
+this.homeButton = undefined
 this.score = data.score
 }
 preload() {
 this.load.image('background', 'images/bg_layer1.png')
-this.load.image('gameover', 'images/gameover.png')
+this.load.image('gameover', 'images/pngegg.png')
 this.load.image('replay-button', 'images/replay.png')
+this.load.image('home-button','images/homebutton.png')
 }
 create() {
 this.add.image(200, 320, 'background')
@@ -22,6 +24,13 @@ this.replayButton = this.add.image(200, 400, 'replay-button')
 this.replayButton.once('pointerup', () => {
     this.scene.start('space-scene')
     
+    }, this)
+
+this.homeButton = this.add.image(200, 440, 'home-button')
+.setInteractive().setScale(0.025)
+this.homeButton.once('pointerup', () => {
+    this.scene.start('main-scene')
+        
     }, this)
 }
 }

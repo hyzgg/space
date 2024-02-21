@@ -20,7 +20,7 @@ export default class SpaceScene extends
         this.scoreLabel = undefined
         this.score = 0
         this.lifeLabel = undefined;
-        this.life = 5
+        this.life = 3
 
 
     }
@@ -33,7 +33,7 @@ export default class SpaceScene extends
             frameWidth: 66,
             frameHeight: 66
             })
-        this.load.image('enemy','images/enemy.png', )
+        this.load.image('enemy','images/enemy.png',)
         this.load.image('laser','images/projectile.png')
     }
     create() {
@@ -71,6 +71,13 @@ export default class SpaceScene extends
             this.player,
             this.enemies,
             this.decreaseLife,
+            null,
+            this
+        )
+        this.physics.add.overlap(
+            this.lasers,
+            this.enemies,
+            this.hitEnemy,
             null,
             this
         )

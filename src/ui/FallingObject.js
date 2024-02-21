@@ -24,5 +24,7 @@ const gameHeight = this.scene.scale.height
 if (this.y > gameHeight +5){
 this.die()
 }
+
 }
+
 }
